@@ -1,0 +1,6 @@
+** Administration Collègues **
+1. Lister les collègues
+2. Créer un collègues
+3. Créer un vote
+4. Afficher le classement
+99. Sortir
