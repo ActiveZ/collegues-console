@@ -1,4 +1,6 @@
 // import presentation from "./presentation";
-const demarrer = require("./presentation")
+const IHM = require("./presentation");
 
-demarrer.menu()
+const ihm = new IHM.Presentation();
+
+ihm.menu();
