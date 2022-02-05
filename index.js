@@ -1,6 +1,6 @@
 // import presentation from "./presentation";
-const IHM = require("./presentation");
+import { Presentation } from "./presentation.js";
 
-const ihm = new IHM.Presentation();
+const ihm = new Presentation();
 
 ihm.menu();
