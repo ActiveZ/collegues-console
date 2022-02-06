@@ -20,54 +20,56 @@ class Presentation {
 
   /////////////// MENU ////////////////
   async menu() {
-    // affichage du menu contenu dans le fichier texte menu.txt
-    const menu = readFileSync("menu.txt", "utf-8");
-    console.log(menu);
-
     // instanciation de l'api
     const api = new Api();
 
-    // sélection du choix utilisateur
-    const choice = await this.question("Votre choix: ");
+    do {
+      // affichage du menu contenu dans le fichier texte menu.txt
+      const menu = readFileSync("menu.txt", "utf-8");
+      console.log(menu);
 
-    // actions selon choix utilisateur
-    switch (choice) {
-      case "1": // GET
-        api.get().then((collegues) => {
-          collegues.forEach((c) => console.log(c.prenom + " " + c.nom));
-        });
-        break;
-      case "2": // POST
-        // création d'un collègue
-        const newCollegue = new Collegue();
-        newCollegue.pseudo = await this.question("pseudo: ");
-        newCollegue.nom = await this.question("nom: ");
-        newCollegue.prenom = await this.question("prénom: ");
-        newCollegue.photo = await this.question("photo: ");
-        newCollegue.score = await this.question("score: ");
-        // ajout du collègue dans la db
-        api.post(newCollegue).then((data) => console.log(data));
-        break;
-      case "3": // vote pour un pseudo
-        const pseudo = await this.question("pseudo: ");
-        api.vote(pseudo).then((data) => console.log("data", data));
-        break;
-      case "4": // classement
-        api.get().then((collegues) => {
-          // tri par ordre décroissant des scores
-          collegues.sort((a, b) => b.score - a.score);
-          // affichage joli :)
-          collegues.forEach((c) => {
-            console.log(c.prenom + " " + c.nom + " a un score de " + c.score);
+      // sélection du choix utilisateur
+      const choice = await this.question("Votre choix: ");
+
+      // actions selon choix utilisateur
+      switch (choice) {
+        case "1": // GET
+          await api.get().then((collegues) => {
+            collegues.forEach((c) => console.log(c.prenom + " " + c.nom));
           });
-        });
-        break;
-      case "99": // exit
-        console.log("Au revoir !");
-        process.exit(0);
-      default:
-        console.log("Erreur de choix");
-    }
+          break;
+        case "2": // POST
+          // création d'un collègue
+          const newCollegue = new Collegue();
+          newCollegue.pseudo = await this.question("pseudo: ");
+          newCollegue.nom = await this.question("nom: ");
+          newCollegue.prenom = await this.question("prénom: ");
+          newCollegue.photo = await this.question("photo: ");
+          newCollegue.score = await this.question("score: ");
+          // ajout du collègue dans la db
+          await api.post(newCollegue).then((data) => console.log(data));
+          break;
+        case "3": // vote pour un pseudo
+          const pseudo = await this.question("pseudo: ");
+          await api.vote(pseudo).then((data) => console.log("data", data));
+          break;
+        case "4": // classement
+          await api.get().then((collegues) => {
+            // tri par ordre décroissant des scores
+            collegues.sort((a, b) => b.score - a.score);
+            // affichage joli :)
+            collegues.forEach((c) => {
+              console.log(c.prenom + " " + c.nom + " a un score de " + c.score);
+            });
+          });
+          break;
+        case "99": // exit
+          console.log("Au revoir !");
+          process.exit(0);
+        default:
+          console.log("ERREUR: choix invalide !");
+      }
+    } while (1);
   }
 }
 
