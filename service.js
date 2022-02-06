@@ -6,8 +6,6 @@ class Api {
    */
   get() {
     const url = "https://formation-angular-collegues.herokuapp.com/api/v1/collegues";
-    // const url = "http://localhost:3000/collegues";
-    // const url = "http://frugysoft.freeboxos.fr:3000/collegues"
 
     return fetch(url)
       .then((res) => res.json())
